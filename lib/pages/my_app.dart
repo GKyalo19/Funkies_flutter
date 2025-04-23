@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:funkies_flutter/pages/home_page.dart';
+import 'package:funkies_flutter/pages/splash_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,10 +13,7 @@ class MyApp extends StatelessWidget {
         
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(),
-      routes: <String, WidgetBuilder>{
-        
-      },
+      home: const SplashWidget(),
     );
   }
 }
