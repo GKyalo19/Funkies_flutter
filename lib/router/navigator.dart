@@ -1,88 +1,77 @@
 import 'package:flutter/material.dart';
-import 'package:funkies_flutter/auth/sign_up.dart';
+import 'package:funkies_flutter/auth/log_in.dart';
 import 'package:funkies_flutter/pages/about_us.dart';
 import 'package:funkies_flutter/pages/events_page.dart';
 import 'package:funkies_flutter/pages/home_page.dart';
-import 'package:funkies_flutter/pages/profile_page.dart';
+import 'package:funkies_flutter/pages/notifications_page.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-class MyNavigator extends StatelessWidget {
+class MyNavigator extends StatefulWidget {
   const MyNavigator({super.key});
 
   @override
+  State<MyNavigator> createState() => _MyNavigatorState();
+}
+
+class _MyNavigatorState extends State<MyNavigator> {
+
+  final navigationKey = GlobalKey<CurvedNavigationBarState>();
+  int pageIndex = 0;
+  int backgroundIndex = 0;
+
+  final List<Widget> pages = [
+    NotificationsPage(),
+    EventsPage(),
+    MyHomePage(),
+    AboutUs(),
+    LogIn(),
+  ];
+
+  final List <AssetImage> backgrounds = [
+    AssetImage("assets/images/Dancers3.png"),
+    AssetImage("assets/images/olympiad.png"),
+    AssetImage("assets/images/Dancers3.png"),
+    AssetImage("assets/images/olympiad.png"),
+    AssetImage("assets/images/Dancers3.png"),
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      iconSize: 20,
-      elevation: 10,
-      selectedIconTheme: IconThemeData(color: Colors.orange, size: 25),
-      
-      items: [
-        BottomNavigationBarItem(
-          backgroundColor: Colors.black,
-          icon: IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyHomePage()),
-              );
-            },
-            icon: Icon(Icons.home),
-          ),
-          label: "Home",
+    return SafeArea(
+      top: false,
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: backgrounds[backgroundIndex],
+            fit: BoxFit.cover,
+            repeat: ImageRepeat.noRepeat,
+            )
         ),
-
-        BottomNavigationBarItem(
-          backgroundColor: Colors.black,
-          icon: IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AboutUs()),
-              );
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: pages[pageIndex],
+          bottomNavigationBar: CurvedNavigationBar(
+            key: navigationKey,
+            height: 50,
+            color: Colors.grey,
+            buttonBackgroundColor: Colors.grey,
+            backgroundColor: Colors.transparent,
+            items: const [
+              Icon(Icons.notifications, size: 24),
+              Icon(Icons.search, size: 24),
+              Icon(Icons.home, size: 24),
+              Icon(Icons.favorite, size: 24),
+              Icon(Icons.person, size: 24),
+            ],
+            onTap: (index){
+              setState(() {
+                pageIndex = index;
+                backgroundIndex = index;
+              });
             },
-            icon: Icon(Icons.info),
           ),
-          label: "About",
         ),
-
-        BottomNavigationBarItem(
-          icon: IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EventsPage()),
-              );
-            },
-            icon: Icon(Icons.event),
-          ),
-          label: "Events",
-        ),
-
-        BottomNavigationBarItem(
-          icon: IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
-              );
-            },
-            icon: Icon(Icons.person),
-          ),
-          label: "Account",
-        ),
-
-        BottomNavigationBarItem(
-          icon: IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SignUp()),
-              );
-            },
-            icon: Icon(Icons.login),
-          ),
-          label: "Login",
-        ),
-      ],
+      ),
     );
   }
 }

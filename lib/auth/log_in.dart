@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funkies_flutter/auth/sign_up.dart';
-import 'package:funkies_flutter/pages/home_page.dart';
+import 'package:funkies_flutter/router/navigator.dart';
 import 'package:funkies_flutter/widgets/button.dart';
 import 'package:funkies_flutter/widgets/text.dart';
 import 'package:funkies_flutter/widgets/textfield.dart';
@@ -63,7 +63,7 @@ class _LogInState extends State<LogIn> {
             SizedBox(height: 60),
             ButtonWidget(
               buttonSize: "bigButton",
-              route: MyHomePage(),
+              route: MyNavigator(),
               text: "Log In",
             ),
           ],

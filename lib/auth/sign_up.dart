@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funkies_flutter/auth/log_in.dart';
-import 'package:funkies_flutter/pages/home_page.dart';
+import 'package:funkies_flutter/router/navigator.dart';
 import 'package:funkies_flutter/widgets/button.dart';
 import 'package:funkies_flutter/widgets/text.dart';
 import 'package:funkies_flutter/widgets/textfield.dart';
@@ -55,7 +55,7 @@ class _SignUpState extends State<SignUp> {
             TextfieldWidget(hintText: "email"),
             TextfieldWidget(hintText: "password"),
             TextfieldWidget(hintText: "Confirm Password"),
-            ButtonWidget(buttonSize: "bigButton", route: MyHomePage(), text: "Sign Up")
+            ButtonWidget(buttonSize: "bigButton", route: MyNavigator(), text: "Sign Up")
           ],
         ),
       ),
