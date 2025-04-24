@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:funkies_flutter/auth/forgot_password.dart';
 import 'package:funkies_flutter/auth/sign_up.dart';
 import 'package:funkies_flutter/router/navigator.dart';
 import 'package:funkies_flutter/widgets/button.dart';
@@ -53,13 +54,32 @@ class _LogInState extends State<LogIn> {
               ],
             ),
             SizedBox(height: 60),
-
-            TextfieldWidget(hintText: "email"),
-
+            TextfieldWidget(labelText: 'email',),
             SizedBox(height: 40),
-
-            TextfieldWidget(hintText: "password"),
-
+            TextfieldWidget(labelText: 'password',),
+            SizedBox(height: 60),            
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextWidget(text: "Forgot password? ", textVariant: "normal"),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ForgotPassword()),
+                    );
+                  },
+                  child: Text(
+                    "Reset",
+                    style: TextStyle(
+                      color: Colors.purple,
+                      fontSize: 20,
+                      decoration: TextDecoration.none,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             SizedBox(height: 60),
             ButtonWidget(
               buttonSize: "bigButton",

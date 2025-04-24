@@ -28,8 +28,14 @@ class ButtonWidget extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (context) => route));
       },
       style: ButtonStyle(
+        minimumSize: WidgetStatePropertyAll<Size>(
+          Size(250, 20)
+        ),
+        maximumSize: WidgetStatePropertyAll<Size>(
+          Size(300, 50)
+        ),
         padding: WidgetStateProperty.all<EdgeInsets>(
-          EdgeInsets.fromLTRB(80, 10, 80, 10),
+          EdgeInsets.fromLTRB(30, 3, 30, 5),
         ),
       ),
       child: Text(text, style: style()),

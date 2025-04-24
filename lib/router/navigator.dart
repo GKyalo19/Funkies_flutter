@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:funkies_flutter/auth/sign_up.dart';
+import 'package:funkies_flutter/auth/log_in.dart';
 import 'package:funkies_flutter/pages/create_event.dart';
 import 'package:funkies_flutter/pages/discover_page.dart';
+import 'package:funkies_flutter/widgets/extras_menu.dart';
 import 'package:funkies_flutter/pages/home_page.dart';
 import 'package:funkies_flutter/pages/my_events.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -28,7 +29,7 @@ class _MyNavigatorState extends State<MyNavigator> {
     MyEvents(),
     MyHomePage(),
     CreateEvent(),
-    SignUp(),
+    LogIn(),
   ];
 
   final List<AssetImage> backgrounds = [
@@ -36,7 +37,6 @@ class _MyNavigatorState extends State<MyNavigator> {
     AssetImage("assets/images/olympiad.png"),
     AssetImage("assets/images/Dancers3.png"),
     AssetImage("assets/images/olympiad.png"),
-    AssetImage("assets/images/Dancers3.png"),
   ];
 
   @override
@@ -65,29 +65,28 @@ class _MyNavigatorState extends State<MyNavigator> {
 
               elevation: 10,
               shadowColor: const Color.fromARGB(176, 0, 0, 0),
-              actionsPadding: EdgeInsets.only(right: 10),
               actions: <Widget>[
                 Image.asset("assets/icons/FunkiesBadge2.png", scale: 0.09),
-                SizedBox(
-                  width: 220,
-                  child: SearchBarWidget()),
-                Tooltip(
-                  margin: EdgeInsets.all(0),
-                  padding: EdgeInsets.all(0),
-                  message: "Switch birghtness mode",
-                  child: IconButton(
-                    isSelected: isDark,
-                    onPressed: () {
-                      setState(() {
-                        isDark = !isDark;
-                      });
-                    },
-                    icon: Icon(Icons.wb_sunny_outlined),
-                    selectedIcon: Icon(Icons.brightness_2),
+                SizedBox(width: 220, child: SearchBarWidget()),
+                Icon(Icons.notifications),
+                ExtrasMenu(
+                  anotherWidget: Tooltip(
+                    margin: EdgeInsets.all(0),
+                    padding: EdgeInsets.all(0),
+                    message: "Switch birghtness mode",
+                    child: IconButton(
+                      isSelected: isDark,
+                      onPressed: () {
+                        setState(() {
+                          isDark = !isDark;
+                        });
+                      },
+                      icon: Icon(Icons.wb_sunny_outlined),
+                      selectedIcon: Icon(Icons.brightness_2),
+                    ),
                   ),
                 ),
                 
-                Icon(Icons.notifications),
               ],
             ),
             backgroundColor: Colors.transparent,
