@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Flutter code sample for [SearchBar].
-
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({super.key});
 
@@ -14,20 +12,22 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // final ThemeData themeData = ThemeData(
-    //   useMaterial3: true,
-    //   brightness: isDark ? Brightness.dark : Brightness.light,
-    // );
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SearchAnchor(
+        isFullScreen: false,
         builder: (BuildContext context, SearchController controller) {
           return SearchBar(
-            controller: controller,
-            padding: const WidgetStatePropertyAll<EdgeInsets>(
-              EdgeInsets.symmetric(horizontal: 16.0),
+            shape: WidgetStatePropertyAll<OutlinedBorder>(
+              RoundedRectangleBorder(
+                side: BorderSide(color: Colors.black, style: BorderStyle.solid),
+              ),
             ),
+            hintText: "search",
+            hintStyle: WidgetStatePropertyAll<TextStyle>(
+              TextStyle(color: Colors.grey),
+            ),
+            controller: controller,
             onTap: () {
               controller.openView();
             },
@@ -35,21 +35,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               controller.openView();
             },
             leading: const Icon(Icons.search),
-            trailing: <Widget>[
-              Tooltip(
-                message: 'Change brightness mode',
-                child: IconButton(
-                  isSelected: isDark,
-                  onPressed: () {
-                    setState(() {
-                      isDark = !isDark;
-                    });
-                  },
-                  icon: const Icon(Icons.wb_sunny_outlined),
-                  selectedIcon: const Icon(Icons.brightness_2_outlined),
-                ),
-              ),
-            ],
+            trailing: <Widget>[Icon(Icons.clear, size: 16)],
           );
         },
         suggestionsBuilder: (

@@ -18,6 +18,14 @@ class TextWidget extends StatelessWidget {
             letterSpacing: 1.5,
             decoration: TextDecoration.none,
           );
+        case 'smallFunkies':
+          return TextStyle(
+            fontSize: 23,
+            fontFamily: 'Poppins-Bold',
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
+            decoration: TextDecoration.none,
+          );
         case 'boldTitle':
           return TextStyle(
             fontSize: 30,

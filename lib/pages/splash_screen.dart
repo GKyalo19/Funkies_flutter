@@ -29,7 +29,7 @@ class _SplashWidgetState extends State<SplashWidget> {
         margin: EdgeInsets.fromLTRB(0, 170, 0, 170),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/icons/FunkiesFavicon.png"),
+            image: AssetImage("assets/icons/FunkiesBadge2.png"),
             fit: BoxFit.fill,
           ),
         ),
