@@ -12,11 +12,12 @@ class TextWidget extends StatelessWidget {
       switch (textVariant) {
         case 'Funkies':
           return TextStyle(
-            fontSize: 40,
+            fontSize: 26,
             fontFamily: 'Poppins-Bold',
             color: Colors.orange,
             letterSpacing: 1.5,
             decoration: TextDecoration.none,
+            fontWeight: FontWeight.bold,
           );
         case 'smallFunkies':
           return TextStyle(
@@ -28,11 +29,12 @@ class TextWidget extends StatelessWidget {
           );
         case 'boldTitle':
           return TextStyle(
-            fontSize: 30,
+            fontSize: 24,
             fontFamily: 'Poppins-Bold',
             color: Colors.white,
             letterSpacing: 1.5,
             decoration: TextDecoration.none,
+            fontWeight: FontWeight.bold,
           );
         case 'bold':
           return TextStyle(
@@ -40,17 +42,18 @@ class TextWidget extends StatelessWidget {
             fontFamily: 'Poppins-Bold',
             color: Colors.white,
             decoration: TextDecoration.none,
+            fontWeight: FontWeight.bold,
           );
         case 'normalTitle':
           return TextStyle(
-            fontSize: 20,
-            fontFamily: 'Poppins-Medium',
+            fontSize: 14,
+            fontFamily: 'Poppins-Bold',
             color: Colors.white,
             decoration: TextDecoration.none,
           );
         case 'normal':
           return TextStyle(
-            fontSize: 20,
+            fontSize: 14,
             fontFamily: 'Poppins-Medium',
             color: Colors.white,
             decoration: TextDecoration.none,

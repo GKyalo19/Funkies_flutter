@@ -32,13 +32,6 @@ class _MyNavigatorState extends State<MyNavigator> {
     LogIn(),
   ];
 
-  final List<AssetImage> backgrounds = [
-    AssetImage("assets/images/Dancers3.png"),
-    AssetImage("assets/images/olympiad.png"),
-    AssetImage("assets/images/Dancers3.png"),
-    AssetImage("assets/images/olympiad.png"),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = ThemeData(
@@ -51,67 +44,60 @@ class _MyNavigatorState extends State<MyNavigator> {
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         top: false,
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: backgrounds[backgroundIndex],
-              fit: BoxFit.cover,
-              repeat: ImageRepeat.noRepeat,
-            ),
-          ),
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: const Color.fromARGB(255, 151, 109, 54),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: const Color.fromARGB(255, 151, 109, 54),
 
-              elevation: 10,
-              shadowColor: const Color.fromARGB(176, 0, 0, 0),
-              actions: <Widget>[
-                Image.asset("assets/icons/FunkiesBadge2.png", scale: 0.09),
-                SizedBox(width: 220, child: SearchBarWidget()),
-                Icon(Icons.notifications),
-                ExtrasMenu(
-                  anotherWidget: Tooltip(
-                    margin: EdgeInsets.all(0),
-                    padding: EdgeInsets.all(0),
-                    message: "Switch birghtness mode",
-                    child: IconButton(
-                      isSelected: isDark,
-                      onPressed: () {
-                        setState(() {
-                          isDark = !isDark;
-                        });
-                      },
-                      icon: Icon(Icons.wb_sunny_outlined),
-                      selectedIcon: Icon(Icons.brightness_2),
+            elevation: 10,
+            shadowColor: const Color.fromARGB(176, 0, 0, 0),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ExtrasMenu(
+                    anotherWidget: Tooltip(
+                      margin: EdgeInsets.all(0),
+                      padding: EdgeInsets.all(0),
+                      message: "Switch birghtness mode",
+                      child: IconButton(
+                        isSelected: isDark,
+                        onPressed: () {
+                          setState(() {
+                            isDark = !isDark;
+                          });
+                        },
+                        icon: Icon(Icons.wb_sunny_outlined),
+                        selectedIcon: Icon(Icons.brightness_2),
+                      ),
                     ),
                   ),
-                ),
-                
-              ],
-            ),
+                  SizedBox(width: 335, child: SearchBarWidget()),
+                  Icon(Icons.notifications),
+                ],
+              ),
+            ],
+          ),
+          body: pages[pageIndex],
+          bottomNavigationBar: CurvedNavigationBar(
+            animationDuration: Duration(milliseconds: 500),
+            key: navigationKey,
+            height: 50,
+            color: const Color.fromARGB(255, 151, 109, 54),
+        
             backgroundColor: Colors.transparent,
-            body: pages[pageIndex],
-            bottomNavigationBar: CurvedNavigationBar(
-              animationDuration: Duration(milliseconds: 500),
-              key: navigationKey,
-              height: 50,
-              color: const Color.fromARGB(255, 151, 109, 54),
-
-              backgroundColor: Colors.transparent,
-              items: const [
-                Icon(Icons.explore, size: 24),
-                Icon(Icons.turned_in, size: 24),
-                Icon(Icons.home, size: 24),
-                Icon(Icons.edit_calendar, size: 24),
-                Icon(Icons.view_list, size: 24),
-              ],
-              onTap: (index) {
-                setState(() {
-                  pageIndex = index;
-                  backgroundIndex = index;
-                });
-              },
-            ),
+            items: const [
+              Icon(Icons.explore, size: 24),
+              Icon(Icons.turned_in, size: 24),
+              Icon(Icons.home, size: 24),
+              Icon(Icons.edit_calendar, size: 24),
+              Icon(Icons.login, size: 24),
+            ],
+            onTap: (index) {
+              setState(() {
+                pageIndex = index;
+                backgroundIndex = index;
+              });
+            },
           ),
         ),
       ),

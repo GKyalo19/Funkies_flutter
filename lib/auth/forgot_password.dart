@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:funkies_flutter/auth/reset_password.dart';
-import 'package:funkies_flutter/router/navigator.dart';
 import 'package:funkies_flutter/widgets/button.dart';
 import 'package:funkies_flutter/widgets/text.dart';
 import 'package:funkies_flutter/widgets/textfield.dart';

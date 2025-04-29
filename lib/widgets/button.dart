@@ -37,6 +37,7 @@ class ButtonWidget extends StatelessWidget {
         padding: WidgetStateProperty.all<EdgeInsets>(
           EdgeInsets.fromLTRB(30, 3, 30, 5),
         ),
+        elevation: WidgetStatePropertyAll(10),
       ),
       child: Text(text, style: style()),
     );

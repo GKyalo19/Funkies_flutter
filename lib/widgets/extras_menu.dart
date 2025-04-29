@@ -12,11 +12,12 @@ class ExtrasMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
+      color: const Color.fromARGB(255, 151, 109, 54),
       icon: ClipOval(
         child: Image.network(
           'https://i.pinimg.com/236x/53/ac/c8/53acc87fe128b75a2a87027f1b01da58.jpg',
-          width: 40,
-          height: 40,
+          width: 50,
+          height: 50,
           fit: BoxFit.cover,
         ),
       ),
