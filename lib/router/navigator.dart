@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:funkies_flutter/auth/log_in.dart';
+import 'package:funkies_flutter/controllers/AuthController.dart';
 import 'package:funkies_flutter/pages/create_event.dart';
 import 'package:funkies_flutter/pages/discover_page.dart';
 import 'package:funkies_flutter/widgets/extras_menu.dart';
 import 'package:funkies_flutter/pages/home_page.dart';
-import 'package:funkies_flutter/pages/my_events.dart';
+import 'package:funkies_flutter/pages/liked_events.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:funkies_flutter/widgets/search_bar.dart';
 
 class MyNavigator extends StatefulWidget {
-  const MyNavigator({super.key});
+  const MyNavigator({super.key, required this.index});
+
+  final int index;
 
   @override
   State<MyNavigator> createState() => _MyNavigatorState();
@@ -20,17 +23,22 @@ class _MyNavigatorState extends State<MyNavigator> {
 
   final navigationKey = GlobalKey<CurvedNavigationBarState>();
 
-  int index = 2;
-  int pageIndex = 2;
-  int backgroundIndex = 2;
+  late int index;
+  //int pageIndex = 2;
 
   final List<Widget> pages = [
     DiscoverPage(),
-    MyEvents(),
+    LikedEvents(),
     MyHomePage(),
     CreateEvent(),
     LogIn(),
   ];
+
+  @override
+  void initState(){
+    super.initState();
+    index = widget.index;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +55,6 @@ class _MyNavigatorState extends State<MyNavigator> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: const Color.fromARGB(255, 151, 109, 54),
-
             elevation: 10,
             shadowColor: const Color.fromARGB(176, 0, 0, 0),
             actions: <Widget>[
@@ -71,13 +78,13 @@ class _MyNavigatorState extends State<MyNavigator> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 335, child: SearchBarWidget()),
+                 SizedBox(width: 270, child: SearchBarWidget()),
                   Icon(Icons.notifications),
                 ],
               ),
             ],
           ),
-          body: pages[pageIndex],
+          body: pages[index],
           bottomNavigationBar: CurvedNavigationBar(
             animationDuration: Duration(milliseconds: 500),
             key: navigationKey,
@@ -85,17 +92,25 @@ class _MyNavigatorState extends State<MyNavigator> {
             color: const Color.fromARGB(255, 151, 109, 54),
         
             backgroundColor: Colors.transparent,
-            items: const [
+            items: [
               Icon(Icons.explore, size: 24),
               Icon(Icons.turned_in, size: 24),
               Icon(Icons.home, size: 24),
               Icon(Icons.edit_calendar, size: 24),
-              Icon(Icons.login, size: 24),
+              GestureDetector(
+                onTap: (){
+                  logout();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context)=> LogIn())
+                  );
+                },
+                child: Icon(Icons.login, size: 24),
+              ),
+              
             ],
-            onTap: (index) {
+            onTap: (selectedIndex) {
               setState(() {
-                pageIndex = index;
-                backgroundIndex = index;
+                index = selectedIndex;
               });
             },
           ),

@@ -2,14 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class TextFormFieldWidget extends StatelessWidget {
+class TextFormFieldWidget<T> extends StatelessWidget {
   const TextFormFieldWidget({
     super.key,
+    this.prefixIcon,
     required this.textController,
+    required this.obscureText,
     this.keyboardType,
     required this.hintText, 
     this.length,
     this.inputFormat,
+    required this.validator,
+    
   });
 
   final TextEditingController textController;
@@ -17,6 +21,9 @@ class TextFormFieldWidget extends StatelessWidget {
   final String hintText;
   final int? length;
   final List <TextInputFormatter>?inputFormat;
+  final FormFieldValidator<String?> validator;
+  final Icon? prefixIcon;
+  final bool obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -24,23 +31,21 @@ class TextFormFieldWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: Material(
         child: TextFormField(
+          obscureText: obscureText,
           maxLength: length,
           controller: textController,
           keyboardType: keyboardType,
           inputFormatters: inputFormat,
           decoration: InputDecoration(
+            prefixIcon: prefixIcon,
             border: const OutlineInputBorder(
+              
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             contentPadding: const EdgeInsets.all(10),
             hintText: hintText,
           ),
-          validator: (String? value) {
-            if (value == null || value.isEmpty) {
-              return "* required";
-            }
-            return null;
-          },
+          validator: validator,
           onSaved: (value){
             textController.text = value!;
           },
@@ -49,6 +54,8 @@ class TextFormFieldWidget extends StatelessWidget {
     );
   }
 }
+
+
 
 class DropdownButtonFormFieldWidget<T> extends StatelessWidget {
   const DropdownButtonFormFieldWidget({

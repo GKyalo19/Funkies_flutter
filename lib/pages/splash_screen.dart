@@ -26,10 +26,10 @@ class _SplashWidgetState extends State<SplashWidget> {
     return Container(
       color: const Color.fromARGB(255, 0, 10, 15),
       child: Container(
-        margin: EdgeInsets.fromLTRB(0, 170, 0, 170),
+        margin: EdgeInsets.fromLTRB(0, 200, 0, 200),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/icons/FunkiesBadge2.png"),
+            image: AssetImage("assets/icons/FunkiesBadge.png"),
             fit: BoxFit.fill,
           ),
         ),

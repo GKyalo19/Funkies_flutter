@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TextWidget extends StatelessWidget {
-  const TextWidget({super.key, required this.text, required this.textVariant});
+  const TextWidget({super.key, required this.text, required this.textVariant, this.textAlign});
 
   final String text;
   final String textVariant;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +69,6 @@ class TextWidget extends StatelessWidget {
       }
     }
 
-    return Text(text, style: style());
+    return Text(text, textAlign: textAlign,style: style());
   }
 }

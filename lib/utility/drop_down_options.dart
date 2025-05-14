@@ -18,7 +18,8 @@ const List nationalCategories = [
   "Sports",
   "Workshop and Seminar",
   "Leadership Program",
-  "Mentorship program",
+  "Mentorship Program",
+  "Art"
 ];
 
 const List internationalCategories = [
@@ -32,6 +33,8 @@ const List internationalCategories = [
   "Workshop and Seminar",
   "Leadership Program",
   "Mentorship program",
+  "Sports",
+  "Art"
 ];
 
 const List academicSubjects = [

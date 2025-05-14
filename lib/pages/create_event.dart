@@ -1,10 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:funkies_flutter/controllers/EventController.dart';
+import 'package:funkies_flutter/models/event.dart';
+import 'package:funkies_flutter/router/navigator.dart';
 import 'package:funkies_flutter/widgets/input.dart';
 import 'package:funkies_flutter/widgets/text.dart';
 import '../utility/drop_down_options.dart' as drop_down;
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_widget/image_picker_widget.dart';
 
 class CreateEvent extends StatefulWidget {
   const CreateEvent({super.key});
@@ -16,17 +23,23 @@ class CreateEvent extends StatefulWidget {
 class _CreateEventState extends State<CreateEvent> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  late bool isLoading = false;
+  late Future<Event> event;
+  late Future<Event> createdEvent;
+
   final TextEditingController _eventNameController = TextEditingController();
   final TextEditingController _eventVenueController = TextEditingController();
+  final TextEditingController _eventCountyController = TextEditingController();
   final TextEditingController _eventDescriptionController =
       TextEditingController();
+  final TextEditingController _eventhostController = TextEditingController();
   final TextEditingController _eventCapacityController =
       TextEditingController();
-  final TextEditingController _eventTeamSizeController =
-      TextEditingController();
+  final TextEditingController _eventLinkController = TextEditingController();
   final TextEditingController _eventSponsorsController =
       TextEditingController();
   final TextEditingController _eventFeeController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
 
   String? _selectedPlatform;
   String? _selectedEventClass;
@@ -34,10 +47,21 @@ class _CreateEventState extends State<CreateEvent> {
   String? _selectedNationalCategory;
   String? _selectedInternationalCategory;
   String? _selectedAcademicSubject;
-  String? _selectedMode;
   String? _selectedCurrency;
   DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
+  File? _selectedImage;
+
+  Future<void> _pickImage() async {
+    print("======>>>>> Starting the _pickImage function");
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,54 +80,93 @@ class _CreateEventState extends State<CreateEvent> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               TextWidget(text: "Create Event", textVariant: "boldTitle"),
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(122, 0, 0, 0),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  children: <Widget>[
-                    ClipOval(
-                      child: Image.network(
-                        'https://i.pinimg.com/236x/53/ac/c8/53acc87fe128b75a2a87027f1b01da58.jpg',
-                        width: 150,
-                        height: 150,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    TextWidget(
-                      text: "Event Host : Chris Brown",
-                      textVariant: "normal",
-                    ),
-                  ],
-                ),
-              ),
               SizedBox(height: 20),
 
               Form(
                 key: _formKey,
                 child: Column(
-                  children: <Widget>[
+                  children: [
+                    TextWidget(
+                      text: "Upload event poster",
+                      textVariant: "normal",
+                      textAlign: TextAlign.left,
+                    ),
+                    ImagePickerWidget(
+                      diameter: 300,
+                      initialImage: "assets/images/pastelBackground.jpg",
+                      shape: ImagePickerWidgetShape.square,
+                      isEditable: true,
+                      borderRadius: Radius.circular(10),
+                      fit: BoxFit.cover,
+                      onChange: (File file){
+                        _pickImage();
+                      },
+                    ),
+                    GestureDetector(
+                      onTap: _pickImage,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        width: 400,
+                        height: 250,
+                        child:
+                            _selectedImage != null
+                                ? Image.file(
+                                  _selectedImage!,
+                                  fit: BoxFit.cover,
+                                  repeat: ImageRepeat.noRepeat,
+                                )
+                                : Image.network(
+                                  'https://i.pinimg.com/236x/53/ac/c8/53acc87fe128b75a2a87027f1b01da58.jpg',
+                                  width: 150,
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+
                     TextFormFieldWidget(
+                      obscureText: false,
                       textController: _eventNameController,
                       hintText: "Name of event",
                       keyboardType: TextInputType.name,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "* required";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 10),
 
                     TextFormFieldWidget(
-                      textController: _eventVenueController,
-                      hintText: "Event Venue",
+                      obscureText: false,
+                      textController: _eventhostController,
+                      hintText: "Event Host",
                       keyboardType: TextInputType.name,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "* required";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 10),
 
                     TextFormFieldWidget(
-                      // maxLength: 100,
+                      obscureText: false,
+                      length: 100,
                       textController: _eventDescriptionController,
                       keyboardType: TextInputType.multiline,
                       hintText: "Description of event",
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "* required";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 10),
 
@@ -217,6 +280,51 @@ class _CreateEventState extends State<CreateEvent> {
                     ),
                     SizedBox(height: 10),
 
+                    _selectedPlatform == "Physical"
+                        ? Column(
+                          children: [
+                            TextFormFieldWidget(
+                              obscureText: false,
+                              textController: _eventVenueController,
+                              hintText: "Event Venue",
+                              keyboardType: TextInputType.name,
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "* required";
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(height: 10),
+                            TextFormFieldWidget(
+                              obscureText: false,
+                              textController: _eventCountyController,
+                              hintText: "County where the event will be",
+                              keyboardType: TextInputType.name,
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "* required";
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
+                        )
+                        : TextFormFieldWidget(
+                          obscureText: false,
+                          textController: _eventLinkController,
+                          hintText: "Event Link",
+                          keyboardType: TextInputType.url,
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return "* required";
+                            }
+                            return null;
+                          },
+                        ),
+
+                    SizedBox(height: 10),
+
                     DropdownButtonFormFieldWidget(
                       hintText: "Event class",
                       value: _selectedEventClass,
@@ -302,7 +410,8 @@ class _CreateEventState extends State<CreateEvent> {
 
                     Column(
                       children: <Widget>[
-                        if (_selectedNationalCategory == "Academic" && _selectedLevel == "National")
+                        if (_selectedNationalCategory == "Academic" &&
+                            _selectedLevel == "National")
                           DropdownButtonFormFieldWidget(
                             hintText: "Event subject",
                             value: _selectedAcademicSubject,
@@ -325,59 +434,51 @@ class _CreateEventState extends State<CreateEvent> {
                     SizedBox(height: 10),
 
                     TextFormFieldWidget(
+                      obscureText: false,
                       keyboardType: TextInputType.number,
                       textController: _eventCapacityController,
                       hintText: "Event Capacity",
                       inputFormat: <TextInputFormatter>[
                         FilteringTextInputFormatter.digitsOnly,
                       ],
-                    ),
-                    SizedBox(height: 10),
-
-                    DropdownButtonFormFieldWidget(
-                      hintText: "Mode of Participation",
-                      value: _selectedMode,
-                      items:
-                          drop_down.mode.map((item) {
-                            return DropdownMenuItem(
-                              value: item,
-                              child: Text(item),
-                            );
-                          }).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedMode = value.toString();
-                        });
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "* required";
+                        }
+                        return null;
                       },
-                      validationText: "required",
                     ),
                     SizedBox(height: 10),
 
                     TextFormFieldWidget(
-                      keyboardType: TextInputType.number,
-                      textController: _eventTeamSizeController,
-                      hintText: "Members per team",
-                      inputFormat: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                    ),
-                    SizedBox(height: 10),
-
-                    TextFormFieldWidget(
+                      obscureText: false,
                       textController: _eventSponsorsController,
                       hintText:
                           "Event Sponsors (separate using commas if multiple)",
                       keyboardType: TextInputType.name,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "* required";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 10),
 
                     TextFormFieldWidget(
+                      obscureText: false,
                       keyboardType: TextInputType.number,
                       textController: _eventFeeController,
                       hintText: "Registration Fee",
                       inputFormat: <TextInputFormatter>[
                         FilteringTextInputFormatter.digitsOnly,
                       ],
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "* required";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 10),
 
@@ -403,11 +504,6 @@ class _CreateEventState extends State<CreateEvent> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                          }
-                        },
                         style: ElevatedButton.styleFrom(
                           maximumSize: Size(250, 50),
                           minimumSize: Size(150, 50),
@@ -416,6 +512,95 @@ class _CreateEventState extends State<CreateEvent> {
                           text: "Create Event",
                           textVariant: "normalTitle",
                         ),
+                        onPressed: () async {
+                          print("=======>>>>>>>>>> Starting Event Creation");
+
+                          //Validate form data
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                          } else {
+                            return;
+                          };
+
+                          print("=======>>>>>>>>>> Form validated");
+
+                          //Create event instance
+                          final event = Event(
+                            poster: _selectedImage,
+                            eventClass: _selectedEventClass.toString().trim(),
+                            level: _selectedLevel.toString().trim(),
+                            category:
+                                _selectedLevel.toString() == "National"
+                                    ? _selectedNationalCategory
+                                        .toString()
+                                        .trim()
+                                    : _selectedInternationalCategory
+                                        .toString()
+                                        .trim(),
+                            subject:
+                                _selectedAcademicSubject.toString().toString(),
+                            name: _eventNameController.text.trim(),
+                            participation_mode:
+                                _selectedPlatform.toString().trim(),
+                            venue: _eventVenueController.text.trim(),
+                            county: _eventCountyController.text.trim(),
+                            link: _eventLinkController.text.trim(),
+                            description:
+                                _eventDescriptionController.text.trim(),
+                            startDate: _selectedStartDate ?? DateTime.now(),
+                            endDate: _selectedEndDate ?? DateTime.now(),
+                            hosts: _eventhostController.text.trim(),
+                            sponsors: _eventSponsorsController.text.trim(),
+                            capacity: int.parse(_eventCapacityController.text),
+                            registration_fee: int.parse(
+                              _eventFeeController.text,
+                            ),
+                            currency: _selectedCurrency.toString().trim(),
+                          );
+
+                          print("=======>>>>>>>>>> New Event instance created");
+
+                          //Snackbar to distract user from loading process
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.amber[900],
+                              content: Text("Processing Data"),
+                            ),
+                          );
+
+                          //Run create event logic
+                          try {
+                            print("====>>>> Starting event submission");
+                            final createdEvent = await createEvent(event);
+
+                            print("====>>>>> Event data: $createdEvent");
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.amber[900],
+                                content: Text("Event created successfully!"),
+                              ),
+                            );
+
+                            if (mounted) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => MyNavigator(index: 1),
+                                ),
+                              );
+                            }
+                          } catch (e) {
+                            print(
+                              "=====>>>>>Failed to create event because of this error: $e",
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: Colors.amber[900],
+                                content: Text("Failed to create event"),
+                              ),
+                            );
+                          }
+                        },
                       ),
                     ),
                   ],

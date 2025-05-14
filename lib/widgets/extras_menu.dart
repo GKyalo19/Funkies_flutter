@@ -39,7 +39,7 @@ class ExtrasMenu extends StatelessWidget {
                   title: Text('About Us'),
                 ),
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=> AboutUs()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AboutUs()));
                 },
               ),
             ),
