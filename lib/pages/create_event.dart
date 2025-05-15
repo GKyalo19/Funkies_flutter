@@ -39,6 +39,7 @@ class _CreateEventState extends State<CreateEvent> {
   final TextEditingController _eventSponsorsController =
       TextEditingController();
   final TextEditingController _eventFeeController = TextEditingController();
+  final TextEditingController _eventContactController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
 
   String? _selectedPlatform;
@@ -467,6 +468,21 @@ class _CreateEventState extends State<CreateEvent> {
 
                     TextFormFieldWidget(
                       obscureText: false,
+                      textController: _eventContactController,
+                      hintText:
+                          "Phone Contact",
+                      keyboardType: TextInputType.phone,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "* required";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 10),
+
+                    TextFormFieldWidget(
+                      obscureText: false,
                       keyboardType: TextInputType.number,
                       textController: _eventFeeController,
                       hintText: "Registration Fee",
@@ -554,6 +570,9 @@ class _CreateEventState extends State<CreateEvent> {
                             capacity: int.parse(_eventCapacityController.text),
                             registration_fee: int.parse(
                               _eventFeeController.text,
+                            ),
+                            contact_number: int.parse(
+                              _eventContactController.text,
                             ),
                             currency: _selectedCurrency.toString().trim(),
                           );

@@ -26,6 +26,7 @@ class Event {
     required this.capacity,
     required this.registration_fee,
     required this.currency,
+    required this.contact_number,
     this.userId,
     this.isLiked = false,
     this.isPaid = false,
@@ -39,7 +40,7 @@ class Event {
 
   final int? id;
 
-  @JsonKey(name: 'poster')
+  @JsonKey(name: 'posterUrl')
   final String? posterUrl;
 
   final String? eventClass;
@@ -59,6 +60,7 @@ class Event {
   final int? capacity;
   final int? registration_fee;
   final String? currency;
+  final int? contact_number;
   final int? userId;
 
   @JsonKey(includeFromJson: false, includeToJson: false)

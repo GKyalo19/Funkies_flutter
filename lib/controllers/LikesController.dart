@@ -29,31 +29,6 @@ Future<void> likeEvent (Event event) async {
   }
 }
 
-Future<List<Event>> getLikedEvents () async {
-  SharedPreferences space = await SharedPreferences.getInstance();
-  final token = space.getString('authToken');
-
-  print("======>>>>>>>>>> Starting process of fetching liked events");
-
-  final response = await http.get(
-    Uri.parse("${globals.baseURL}/like"),
-    headers: <String, String>{
-      'Accept':'application/json',
-      'Authorization':'Bearer $token'
-    },
-  );
-
-  if(response.statusCode == 200){
-    List<dynamic> likedEventsData = jsonDecode(response.body);
-    print("======>>>>>>>>>> Liked events - $likedEventsData");
-    return likedEventsData.map((event)=> Event.fromJson(event)).toList();
-  } else if (response.statusCode == 409){
-    throw Exception ("Event already liked");
-  } else { 
-    throw Exception('Could not like event');
-  }
-}
-
 Future<void> unLikeEvent (Event event) async {
   SharedPreferences space = await SharedPreferences.getInstance();
   final token = space.getString('authToken');
@@ -74,6 +49,29 @@ Future<void> unLikeEvent (Event event) async {
     print("Event already unliked");
   } else {  
     print('Error unliking event: ${response.body}');
+    throw Exception('Could not like event');
+  }
+}
+
+Future<List<Event>> getLikedEvents () async {
+  SharedPreferences space = await SharedPreferences.getInstance();
+  final token = space.getString('authToken');
+
+  final response = await http.get(
+    Uri.parse("${globals.baseURL}/like"),
+    headers: <String, String>{
+      'Accept':'application/json',
+      'Authorization':'Bearer $token'
+    },
+  );
+
+  if(response.statusCode == 200){
+    List<dynamic> likedEventsData = jsonDecode(response.body);
+    print("======>>>>>>>>>> Liked events - $likedEventsData");
+    return likedEventsData.map((event)=> Event.fromJson(event)).toList();
+  } else if (response.statusCode == 409){
+    throw Exception ("Event already liked");
+  } else { 
     throw Exception('Could not like event');
   }
 }

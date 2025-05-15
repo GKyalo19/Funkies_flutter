@@ -8,7 +8,7 @@ part of 'event.dart';
 
 Event _$EventFromJson(Map<String, dynamic> json) => Event(
   id: (json['id'] as num?)?.toInt(),
-  posterUrl: json['poster'] as String?,
+  posterUrl: json['posterUrl'] as String?,
   eventClass: json['eventClass'] as String?,
   level: json['level'] as String?,
   category: json['category'] as String?,
@@ -32,6 +32,7 @@ Event _$EventFromJson(Map<String, dynamic> json) => Event(
   capacity: (json['capacity'] as num?)?.toInt(),
   registration_fee: (json['registration_fee'] as num?)?.toInt(),
   currency: json['currency'] as String?,
+  contact_number: (json['contact_number'] as num?)?.toInt(),
   userId: (json['userId'] as num?)?.toInt(),
   isLiked: json['isLiked'] as bool? ?? false,
   isPaid: json['isPaid'] as bool? ?? false,
@@ -41,7 +42,7 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
   'isLiked': instance.isLiked,
   'isPaid': instance.isPaid,
   'id': instance.id,
-  'poster': instance.posterUrl,
+  'posterUrl': instance.posterUrl,
   'eventClass': instance.eventClass,
   'level': instance.level,
   'category': instance.category,
@@ -59,5 +60,6 @@ Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
   'capacity': instance.capacity,
   'registration_fee': instance.registration_fee,
   'currency': instance.currency,
+  'contact_number': instance.contact_number,
   'userId': instance.userId,
 };
