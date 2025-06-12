@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 Future<User> registerUser(User user) async {
+  
   final response = await http.post(
     Uri.parse('${globals.baseURL}/register'),
     headers: <String, String>{

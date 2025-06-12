@@ -18,6 +18,7 @@ class _MyHomePageState extends State<MyHomePage> {
       theme: ThemeData(),
       debugShowCheckedModeBanner: false,
       home: Container(
+        padding: EdgeInsets.fromLTRB(10, 0, 10, 40),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/Dancers3.png"),
@@ -34,16 +35,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 20, 0, 40),
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 30),
                   child: Column(
                     children: [
                       TextWidget(text: "Funkies254", textVariant: "boldTitle"),
+                      SizedBox(height: 10,),
                       SearchBarWidget(),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 200,)
             ],
           ),
       ),

@@ -3,11 +3,9 @@ import 'package:funkies_flutter/auth/log_in.dart';
 import 'package:funkies_flutter/controllers/AuthController.dart';
 import 'package:funkies_flutter/pages/create_event.dart';
 import 'package:funkies_flutter/pages/discover_page.dart';
-import 'package:funkies_flutter/widgets/extras_menu.dart';
 import 'package:funkies_flutter/pages/home_page.dart';
 import 'package:funkies_flutter/pages/liked_events.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:funkies_flutter/widgets/search_bar.dart';
 
 class MyNavigator extends StatefulWidget {
   const MyNavigator({super.key, required this.index});
@@ -53,45 +51,13 @@ class _MyNavigatorState extends State<MyNavigator> {
       home: SafeArea(
         top: false,
         child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 151, 109, 54),
-            elevation: 10,
-            shadowColor: const Color.fromARGB(176, 0, 0, 0),
-            actions: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ExtrasMenu(
-                    anotherWidget: Tooltip(
-                      margin: EdgeInsets.all(0),
-                      padding: EdgeInsets.all(0),
-                      message: "Switch birghtness mode",
-                      child: IconButton(
-                        isSelected: isDark,
-                        onPressed: () {
-                          setState(() {
-                            isDark = !isDark;
-                          });
-                        },
-                        icon: Icon(Icons.wb_sunny_outlined),
-                        selectedIcon: Icon(Icons.brightness_2),
-                      ),
-                    ),
-                  ),
-                 SizedBox(width: 270, child: SearchBarWidget()),
-                  Icon(Icons.notifications),
-                ],
-              ),
-            ],
-          ),
           body: pages[index],
           bottomNavigationBar: CurvedNavigationBar(
             animationDuration: Duration(milliseconds: 500),
             key: navigationKey,
             height: 50,
-            color: const Color.fromARGB(255, 151, 109, 54),
-        
             backgroundColor: Colors.transparent,
+            color: const Color.fromARGB(192, 78, 60, 26),
             items: [
               Icon(Icons.explore, size: 24),
               Icon(Icons.turned_in, size: 24),
@@ -104,7 +70,7 @@ class _MyNavigatorState extends State<MyNavigator> {
                     MaterialPageRoute(builder: (context)=> LogIn())
                   );
                 },
-                child: Icon(Icons.login, size: 24),
+                child: Icon(Icons.logout, size: 24),
               ),
               
             ],

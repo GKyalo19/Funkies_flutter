@@ -19,93 +19,123 @@ class _EventsPageState extends State<EventPage> {
     return Container(
       padding: EdgeInsets.all(6),
       child: Scaffold(
-        appBar: AppBar(actions: <Widget>[
-
-          ],
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+          title: TextWidget(text: widget.event!.name!, textVariant: "bold"),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.only(top: 5),
-                width: 350,
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  image: DecorationImage(
-                    image: NetworkImage(widget.event!.posterUrl ?? ''),
-                    fit: BoxFit.cover,
-                    repeat: ImageRepeat.noRepeat,
-                    onError: (exception, stackTrace) {
-                      AssetImage("assets/images/Dancers3.png");
-                    },
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/app_background.png"),
+              fit: BoxFit.cover,
+              repeat: ImageRepeat.noRepeat
+            )
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(top: 5),
+                  width: 350,
+                  height: 280,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/Dancers3.png"),
+                      fit: BoxFit.cover,
+                      repeat: ImageRepeat.noRepeat,
+                    ),
                   ),
                 ),
-              ),
-              TextWidget(text: widget.event!.name!, textVariant: "boldTitle"),
-
-              TextWidget(
-                text: "${widget.event!.startDate} - ${widget.event!.endDate}",
-                textVariant: "light",
-              ),
-              SizedBox(height: 20),
-
-              if (widget.event!.venue != null)
                 Column(
-                  children: <Widget>[
-                    TextWidget(text: "Event Venue", textVariant: "boldTitle"),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     TextWidget(
-                      text: widget.event!.venue!,
-                      textVariant: "normal",
+                      text: "Event Date: ${widget.event!.startDate}",
+                      textVariant: "light",
                     ),
-                    buildMapSnippet(widget.event!.venue!),
-                  ],
-                ),
+                    SizedBox(height: 20),
+                    
+                    TextWidget(
+                      text: "Registration fee: ${widget.event!.currency} ${widget.event!.registration_fee}",
+                      textVariant: "light",
+                    ),
+                    SizedBox(height: 20),
 
-              if (widget.event!.link != null)
-                Column(
-                  children: <Widget>[
-                    TextWidget(text: "Event Link", textVariant: "boldTitle"),
                     TextWidget(
-                      text: widget.event!.link!,
-                      textVariant: "normal",
+                      text: "Event host: ${widget.event!.hosts}",
+                      textVariant: "light",
                     ),
+                    SizedBox(height: 20),
+                    
+                    TextWidget(
+                      text: "Mode of participation: ${widget.event!.participation_mode}",
+                      textVariant: "light",
+                    ),
+                    SizedBox(height: 40),
                   ],
                 ),
-
-              SizedBox(height: 20),
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: Color.fromARGB(255, 151, 109, 54),
+          
+                if (widget.event!.venue != null)
+                  Column(
+                    children: <Widget>[
+                      TextWidget(text: "Event Venue", textVariant: "boldTitle"),
+                      TextWidget(
+                        text: "${widget.event!.venue!}, ${widget.event!.county!}",
+                        textVariant: "normal",
+                      ),
+                      buildMapSnippet(widget.event!.venue!),
+                    ],
+                  ),
+          
+                if (widget.event!.link != null)
+                  Column(
+                    children: <Widget>[
+                      TextWidget(text: "Event Link", textVariant: "boldTitle"),
+                      TextWidget(
+                        text: widget.event!.link!,
+                        textVariant: "normal",
+                      ),
+                    ],
+                  ),
+          
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Color.fromARGB(255, 151, 109, 54),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      TextWidget(
+                        text: "Overview",
+                        textVariant: "boldTitle",
+                        textAlign: TextAlign.left,
+                      ),
+                      TextWidget(
+                        text: widget.event!.description!,
+                        textVariant: "normal",
+                      ),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: <Widget>[
-                    TextWidget(
-                      text: "Overview",
-                      textVariant: "boldTitle",
-                      textAlign: TextAlign.left,
-                    ),
-                    TextWidget(
-                      text: widget.event!.description!,
-                      textVariant: "normal",
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: Container(
+          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+          color: const Color.fromARGB(141, 158, 158, 158),
           height: 70,
           child: Row(
             children: <Widget>[
               Column(
                 children: <Widget>[
                   TextWidget(
-                    text: widget.event!.registration_fee.toString(),
+                    text: "${widget.event!.currency} ${widget.event!.registration_fee.toString()}",
                     textVariant: "light",
                   ),
                   TextWidget(
@@ -123,6 +153,7 @@ class _EventsPageState extends State<EventPage> {
                   paymentDialog(
                     context,
                     widget.event!.id!,
+                    widget.event!.name!,
                     "Payment of registration fee of ${widget.event!.currency} ${widget.event!.registration_fee} for the event ${widget.event!.name}",
                   );
                 },

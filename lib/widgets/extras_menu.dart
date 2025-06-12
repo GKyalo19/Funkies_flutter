@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:funkies_flutter/auth/log_in.dart';
+import 'package:funkies_flutter/controllers/AuthController.dart';
 import 'package:funkies_flutter/pages/about_us.dart';
 import 'package:funkies_flutter/pages/contact_us.dart';
 import 'package:funkies_flutter/pages/profile_page.dart';
 
 class ExtrasMenu extends StatelessWidget {
-  const ExtrasMenu({super.key, required this.anotherWidget});
+  const ExtrasMenu({super.key, this.anotherWidget});
 
-  final Widget anotherWidget;
+  final Widget? anotherWidget;
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
-      color: const Color.fromARGB(255, 151, 109, 54),
+      color: const Color.fromARGB(255, 78, 60, 26),
       icon: ClipOval(
         child: Image.network(
           'https://i.pinimg.com/236x/53/ac/c8/53acc87fe128b75a2a87027f1b01da58.jpg',
           width: 50,
-          height: 50,
+          height: 60,
           fit: BoxFit.cover,
         ),
       ),
@@ -50,18 +51,26 @@ class ExtrasMenu extends StatelessWidget {
                 title: Text('Contact Us'),
               ),
             ),
+            // PopupMenuItem(
+            //   value: anotherWidget,
+            //   child: ListTile(
+            //     leading: anotherWidget,
+            //     title: Text('Brightness'),
+            //   ),
+            // ),
             PopupMenuItem(
-              value: anotherWidget,
-              child: ListTile(
-                leading: anotherWidget,
-                title: Text('Brightness'),
-              ),
-            ),
-            const PopupMenuItem(
               value: LogIn(),
-              child: ListTile(
-                leading: Icon(Icons.login),
-                title: Text('Log In'),
+              child: GestureDetector(
+                onTap: (){
+                  logout();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context)=> LogIn())
+                  );
+                },
+                child: ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Log Out'),
+                ),
               ),
             ),
           ],

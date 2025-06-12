@@ -43,6 +43,7 @@ class _LogInState extends State<LogIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
         height: 755,
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -53,7 +54,7 @@ class _LogInState extends State<LogIn> {
         ),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(30, 80, 30, 40),
+            padding: EdgeInsets.fromLTRB(30, 100, 30, 60),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -67,7 +68,7 @@ class _LogInState extends State<LogIn> {
                 SizedBox(height: 30,),
                 
                 TextWidget(text: "Log In", textVariant: "boldTitle"),
-                SizedBox(height: 40),
+                SizedBox(height: 30),
                 
                 if (widget.name == null)
                 Row(
@@ -90,7 +91,7 @@ class _LogInState extends State<LogIn> {
                 ),
                 
                 if (widget.name == null)
-                SizedBox(height: 60),
+                SizedBox(height: 40),
                 
                 Form(
                   key: _formKey,
@@ -123,7 +124,7 @@ class _LogInState extends State<LogIn> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 60),
+                      SizedBox(height: 40),
                     ],
                   ),
                 ),
@@ -148,7 +149,7 @@ class _LogInState extends State<LogIn> {
                     ),
                   ],
                 ),
-                SizedBox(height: 60),
+                SizedBox(height: 40),
                 isLoading
                     ? CircularProgressIndicator()
                     : ElevatedButton(
@@ -169,7 +170,7 @@ class _LogInState extends State<LogIn> {
                 
                           try {
                             final loggedInUser = await login(user);
-                            print("======>>>>> Logging in the user");
+                            print("======>>>>> Logging in the user: $loggedInUser");
                 
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(content: Text("Logging in")),

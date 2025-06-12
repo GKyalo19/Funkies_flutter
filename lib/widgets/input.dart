@@ -77,6 +77,8 @@ class DropdownButtonFormFieldWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T?>(
       decoration: InputDecoration(
+        fillColor: Colors.black,
+        hoverColor: Colors.black,
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),

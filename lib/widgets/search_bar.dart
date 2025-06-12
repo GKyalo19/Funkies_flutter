@@ -90,6 +90,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     return SearchAnchor(
       builder: (BuildContext context, SearchController controller) {
         return SearchBar(
+          backgroundColor: WidgetStatePropertyAll<Color>(Colors.transparent),
           controller: controller,
           hintText: "Search events",
           hintStyle: WidgetStateProperty.all(
@@ -97,17 +98,14 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           ),
           shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
-              side: BorderSide(
-                color: Colors.black,
-                style: BorderStyle.solid
-              ),
+              side: BorderSide.none
             )
           ),
-          leading: const Icon(Icons.search),
+          leading: const Icon(Icons.search, color: Colors.white, size: 30,),
           trailing: [
               IconButton(onPressed: (){
                 controller.clear();
-              }, icon: Icon(Icons.clear)),
+              }, icon: Icon(Icons.clear, color: const Color.fromARGB(255, 197, 197, 197),)),
           ],
           onTap: (){
             controller.openView();
@@ -120,9 +118,6 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
       suggestionsBuilder: (BuildContext context, SearchController controller){
         final query = controller.text;
         final results = searchEvents(query);
-
-        print("=====>>>>> Search query: $query");
-        print("======>>>>> Filtered events: ${results.length}");
 
         if(results.isEmpty){
           return [
